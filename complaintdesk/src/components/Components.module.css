@@ -1,0 +1,171 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+html{
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.nvbr{
+    background-color: #4C1E51 ;
+    min-height: 10vh;
+}
+
+.navlink{
+    color: white;
+    text-decoration: none;    
+}
+
+.navlink:hover{
+    color: rgb(114,27,213);
+    text-decoration: none;
+}
+
+.toggler{
+    color:white;
+}
+
+/* .abslt{
+    position: relative;
+} */
+
+.container{
+    background-color: #2D0A31; 
+    padding-bottom: 5vh;
+    min-height: 90vh;
+}
+
+.btn {
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+    border-radius: 10rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all .2s;
+}
+
+.btn:hover {
+    transform: scale(1.03);
+}
+.btn:focus {
+    outline: none; 
+}
+
+.fill_button{
+    border: none;
+    color:white;
+    background-image:linear-gradient(to bottom, #A875FF, #E469FF);
+}
+
+.fill_button:hover{
+    transition: all .4s;
+    background-image:linear-gradient(to bottom, #E469FF,#A875FF);
+    
+}
+
+.empty_button{
+    border: box;
+    color:rgb(241,103,255);
+    background-color: white;
+    border-color: rgb(241,103,255);
+}
+
+.empty_button:hover{
+    border: none;
+    color:white;
+    transition: all .4s;
+    background-image:linear-gradient(to bottom, #A875FF, #E469FF);
+}
+
+.form{
+    margin-left: auto;
+}
+
+.C_input{
+    border-bottom: 2px solid brown;
+    margin: 15px;
+}
+
+.C_input > input,textarea{
+    width: 100%;
+    border:none;
+    outline: none;
+    background: none;
+    padding-left: 8px;
+    color:white;
+}
+
+.C_input > textarea{
+    max-height:20vh;
+    width: 100%;
+}
+
+h1{
+    color:white;
+    margin: auto;
+    padding-top: 5vh;
+}
+
+h1,h2,h3,h4,h5{
+    font-family: "Poppins",sans-serif;
+    color:white;
+}
+
+p{
+    color:white;
+}
+
+
+.complaint{
+    margin: auto;
+    padding-top: 10vh;
+    width:50vw; 
+    color:black;
+}
+
+.blackk{
+    color: black;
+}
+
+
+
+.linkk{
+    color: black;
+    text-decoration: none;    
+}
+
+.linkk:hover{
+    color: rgb(114,27,213);
+    text-decoration: none;
+}
+
+.c_detail{
+    margin: auto;
+}
+
+.fitpage{
+    background-color: #2D0A31;
+    min-height: 90vh;
+}
+
+.overflow_scroll{
+    overflow: scroll;
+}
+
+.mapMarkerStyle {
+    background-color: red;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: block;
+    left: -0.5rem;
+    top: -0.5rem;
+    position: relative;
+    border-radius: 1.5rem 1.5rem 0;
+    transform: rotate(45deg);
+    border: 1px solid #FFFFFF;
+  }

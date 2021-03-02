@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://raghu:4545454545@complaintdesk.7id4d.mongodb.net/complaintDesk?retryWrites=true&w=majority",
+    "jwtSecret":"sl_myJWTsecret"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "complaintdesk",
+  "version": "1.0.0",
+  "description": "complaint desk app with MERN stack",
+  "main": "server.js",
+  "scripts": {
+    "complaintdesk-install": "npm install --prefix complaintdesk",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "complaintdesk": "npm start --prefix complaintdesk",
+    "dev": "concurrently \"npm run server\" \"npm run complaintdesk\""
+  },
+  "author": "raghurajj",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^6.0.0",
+    "config": "^3.3.4",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.18"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

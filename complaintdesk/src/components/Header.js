@@ -46,16 +46,24 @@ class Header extends Component{
                         </NavbarBrand>
                         <Collapse isOpen={this.state.isNavOpen } navbar>
                             <Nav navbar className="ml-auto">
-                                <NavItem>
-                                    <NavLink className={`${Styles.navlink}`} to="/newcomplaint">
-                                    <FontAwesomeIcon icon={faPlusSquare} />&nbsp;New Complaint&nbsp;&nbsp;
-                                    </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink className={`${Styles.navlink}`} to="/pastcomplaints">
-                                    <FontAwesomeIcon icon={faArchive} />&nbsp;Past Complaints&nbsp;&nbsp;
-                                    </NavLink>
-                                </NavItem>
+                                {
+                                    this.props.isAuthenticated?
+                                    <NavItem>
+                                        <NavLink className={`${Styles.navlink}`} to="/newcomplaint">
+                                        <FontAwesomeIcon icon={faPlusSquare} />&nbsp;New Complaint&nbsp;&nbsp;
+                                        </NavLink>
+                                    </NavItem>:null
+                                }
+
+                                {
+                                    this.props.isAuthenticated?
+                                    <NavItem>
+                                        <NavLink className={`${Styles.navlink}`} to="/pastcomplaints">
+                                        <FontAwesomeIcon icon={faArchive} />&nbsp;Past Complaints&nbsp;&nbsp;
+                                        </NavLink>
+                                    </NavItem>:null
+                                }
+                                
                                 {
                                     this.props.isAuthenticated?
                                     <NavItem>
@@ -87,5 +95,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, { logout })(Header);
-
-// store.dispatch({ type: LOGOUT })

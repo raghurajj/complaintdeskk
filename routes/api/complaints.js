@@ -1,8 +1,36 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../../middleware/auth')
+const multer = require('multer')
 
 const Complaint = require('../../models/Complaint')
+
+const storage = multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,'./uploads/')
+    },
+    filename: function(req,file,cb){
+        cb(null, Date.now() + file.originalname)
+    }
+})
+
+const fileFilter = (req, file, cb)=>{
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png' )
+    {
+        cb(null, true)
+    }
+    else{
+        cb(null, false)
+    }
+}
+
+const upload = multer({
+    storage:storage,
+    limits: {
+        fileSize: 1024*1024*5
+    },
+    fileFilter:fileFilter
+})
 
 router.get('/',(req,res)=>{
     Complaint.find()
@@ -27,17 +55,19 @@ router.get('/pastcomplaints',auth,(req,res)=>{
 })
 
 
-router.post('/',auth,(req,res)=>{
+router.post('/',auth,upload.single('image'),(req,res)=>{
     const newComplaint = new Complaint({
         author:req.user.id,
         title:req.body.title,
         description:req.body.description,
+        address:req.body.address,
+        image:req.file.path ,
         lattitude:req.body.lattitude,
         longitude: req.body.longitude
     })
 
     newComplaint.save()
-    .then(complaint => res.json(newComplaint))
+    .then(complaint => res.json(complaint))
 })
 
 

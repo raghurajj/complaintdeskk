@@ -16,6 +16,13 @@ const ComaplaintSchema = new Schema({
         type: String,
         required: true
     },
+    address:{
+        type: String
+    },
+    status:{
+        type: String,
+        default:'pending'
+    },
     lattitude:{
         type: Number ,
         required: true
@@ -23,6 +30,9 @@ const ComaplaintSchema = new Schema({
     longitude:{
         type:Number ,
         required:true
+    },
+    image:{
+        type:String
     },
     date:{
         type: Date,

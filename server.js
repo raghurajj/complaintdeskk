@@ -12,6 +12,10 @@ mongoose.connect(db, { useNewUrlParser: true , useUnifiedTopology: true, useCrea
     .catch(err => console.log(err))
 
 
+app.use('/uploads',express.static('uploads'))
+
+app.use('/admin',require('./routes/api/admin.router'))
+
 app.use('/api/complaints',require('./routes/api/complaints'))
 
 app.use('/api/users',require('./routes/api/users'))

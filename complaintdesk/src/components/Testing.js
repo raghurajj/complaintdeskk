@@ -1,7 +1,5 @@
 import React,{Component} from 'react';
-import axios from 'axios';
 import Styles from './Components.module.css';
-import {Link} from 'react-router-dom';
 import { Spring } from 'react-spring/renderprops'; 
 import PieChartt from './PieChartt';
 

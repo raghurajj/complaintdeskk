@@ -4,6 +4,10 @@ import ReactMapboxGl, { Layer, Feature,Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import axios from 'axios';
 import { Spring } from 'react-spring/renderprops'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash} from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
+var dateFormat = require('dateformat');
 
 
 const Map = ReactMapboxGl({
@@ -16,17 +20,16 @@ class ComplaintDetail extends Component{
     constructor(props){
         super(props);
         this.state={
-            complaintData:''
+            complaintData:null
         };
         this.LoadData=this.LoadData.bind(this);
+        this.handleDelete=this.handleDelete.bind(this);
     }
 
     async LoadData(){
-        if (localStorage.getItem('access')) {
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'Authorization': `JWT ${localStorage.getItem('access')}`,
                     'Accept': 'application/json'
                 }
             };
@@ -43,8 +46,27 @@ class ComplaintDetail extends Component{
             } catch (err) {
                 console.log(err);
             }
-        } 
+    }
 
+    async handleDelete(){
+        if(this.props.isAuthenticated){
+            const config = {
+                headers: {
+                    'x-auth-token': localStorage.getItem('token'),
+                    'Accept': 'application/json'
+                }
+            };
+
+            try {
+                const pk = (window.location.pathname.split('/'))[2];
+                const url = '/api/complaints/'+pk+'/';
+                const res = await axios.delete(url, config);
+                console.log(res)
+                this.props.history.push('/')
+            }catch (err) {
+                console.log(err);
+            }
+        }
     }
 
     componentDidMount() {
@@ -71,23 +93,52 @@ class ComplaintDetail extends Component{
                                 <h1>{this.state.complaintData?this.state.complaintData.title:'Title'}</h1>
                             </div>
                             <div className="row my-5 mx-5">
-                                <div className={`col-10 col-md-5 mt-3 ${Styles.c_detail}`}>
-                                    <p>{this.state.complaintData?this.state.complaintData.description:'description'}</p>
-                                    <br/>
-                                    <p>{this.state.complaintData?this.state.complaintData.lattitude:'lattitude'}</p>
-                                    <p>{this.state.complaintData?this.state.complaintData.longitude:'longitude'}</p>
-                                </div>
-                                <div className="col-10 col-md-5 pr-5">
+                                {this.state.complaintData? 
+                                <div className={`col-12 col-md-6 col-xs-12`}>
+                                    <div className={Styles.complaintdetail}>
+                                        <div className={Styles.complaintdetail_img}>
+                                            {/* <img src="https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-1029171697.jpg"/> */}
+                                            <img src={`http://localhost:3000/${this.state.complaintData.image}`}/>
+                                            {console.log(this.state.complaintData.image)}
+                                        </div>
+                                        <div className={Styles.complaint_description}>
+                                            <div className={Styles.complaint_date}>
+                                                <span>{dateFormat(this.state.complaintData.date, "dddd, mmmm dS, yyyy, h:MM:ss TT")}</span>
+                                            </div>
+
+                                            <h1 className={Styles.complaint_title}>{this.state.complaintData.title}</h1>
+                                            <p className={Styles.complaintdetail_text}>{this.state.complaintData.description} </p>
+                                            <h6>{this.state.complaintData.address}</h6>
+                                            <div className="row">
+                                                <div className={`col-sm-7 col-md-6 col-xs-12 my-2`}>
+                                                    <button className={` ${Styles.btn} ${Styles.empty_button}`}>&nbsp;{this.state.complaintData.status}&nbsp;</button>
+                                                </div>
+                                                <div className={`col-sm-7 col-md-6 col-xs-12 my-2`}>
+                                                    {
+                                                        this.props.isAuthenticated && this.props.user && this.props.user._id===this.state.complaintData.author?
+                                                        <button className={` ${Styles.btn} ${Styles.fill_button}`} onClick={this.handleDelete}><FontAwesomeIcon icon={faTrash} />&nbsp;DELETE&nbsp;</button>
+                                                        :null
+                                                    }
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                              
+                                        </div>
+                                    </div>
+                                    {/* <img src={this.state.complaintData.image}/> */}
+                                </div>:null}
+                                <div className={`col-12 col-md-6 ${Styles.map}`}>
                                     <Map
                                         style="mapbox://styles/mapbox/streets-v9"
                                         containerStyle={{
-                                            height: '60vh',
-                                            width: '40vw'
+                                            height: '100%',
+                                            width: '100%'
                                         }}
                                         center={this.state.complaintData?[this.state.complaintData.longitude,this.state.complaintData.lattitude]:[80.94615925,26.8467088]}
                                         zoom={[5]}
                                     >
-                                        {this.state.complaintData[0]?
+                                        {this.state.complaintData?
                                         <Marker
                                             coordinates={[this.state.complaintData.longitude,this.state.complaintData.lattitude]}
                                             anchor="bottom"
@@ -114,4 +165,9 @@ class ComplaintDetail extends Component{
     }
 }
 
-export default ComplaintDetail;
+const mapStateToProps = state => ({
+    isAuthenticated:state.auth.isAuthenticated,
+    user: state.auth.user
+});
+
+export default  connect(mapStateToProps,null)(ComplaintDetail);

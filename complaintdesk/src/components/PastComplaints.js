@@ -3,7 +3,8 @@ import axios from 'axios';
 import Styles from './Components.module.css';
 import {Link} from 'react-router-dom';
 import { Spring } from 'react-spring/renderprops'; 
-
+import { connect } from 'react-redux';
+var dateFormat = require('dateformat');
 
 class PastComplaint extends Component{
     constructor(props){
@@ -17,7 +18,7 @@ class PastComplaint extends Component{
 
 
     async LoadData(){
-        if (localStorage.getItem('token')) { 
+        if (this.props.isAuthenticated) { 
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,10 +28,7 @@ class PastComplaint extends Component{
 
             try {
                 const res = await axios.get('/api/complaints/', config)
-                config.headers['x-auth-token'] = localStorage.getItem('token')
-                console.log(res.data);
-                const user_data = await axios.get('/api/auth/user/', config);
-                const user_id = user_data.data._id;
+                const user_id = this.props.user._id;
                 this.setState({
                     complaintData:res.data.filter(complaint => complaint.author === user_id)
                 })
@@ -55,7 +53,7 @@ class PastComplaint extends Component{
     
     
     render(){
-        
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         return(
             <Spring
             from={{opacity:0,marginLeft:-500}}
@@ -67,21 +65,21 @@ class PastComplaint extends Component{
                         <div className={Styles.container}>
                             {this.state.complaintData &&
                             this.state.complaintData.map(complaint => {
-
                                 return (
-                                    <Link className={Styles.linkk} to={`complaintdetail/${complaint._id}`}>
-                                        <div className={Styles.complaint}>
-                                            <div className="card">
-                                                <div className="card-header">
-                                                <h4>{complaint.title}</h4>
-                                                </div>
-                                                <div className="card-body">
-                                                    <p className={`card-text ${Styles.blackk}`}>{complaint.description}</p>
-                                                </div>
-                                            </div>
+                                    <div className={Styles.complaintt}>
+                                        <div className={Styles.complaint_img}>
+                                            <img src="complaintdesk/src/assets/complaint_image.jpeg" />
                                         </div>
-                                    </Link>
-                                );
+                                        <div className={Styles.complaint_description}>
+                                            <div className={Styles.complaint_date}>
+                                                <span>{dateFormat(complaint.date, "dddd, mmmm dS, yyyy, h:MM:ss TT")}</span>
+                                            </div>
+                                            <h1 className={Styles.complaint_title}>{complaint.title}</h1>
+                                            <p className={Styles.complaint_text}>{complaint.description} </p>
+                                            <Link className={`${Styles.linkk} ${Styles.btn} ${Styles.fill_button}`} to={`complaintdetail/${complaint._id}`}>Read More</Link>
+                                        </div>
+                                    </div>
+                                )
                             })}
                         </div>
                    </div>)}
@@ -91,4 +89,25 @@ class PastComplaint extends Component{
     }
 }
 
-export default PastComplaint;
+const mapStateToProps = state => ({
+    isAuthenticated:state.auth.isAuthenticated,
+    user: state.auth.user
+});
+
+export default  connect(mapStateToProps,null)(PastComplaint);
+
+
+// return (
+//     <Link className={Styles.linkk} to={`complaintdetail/${complaint._id}`}>
+//         <div className={Styles.complaint}>
+//             <div className="card">
+//                 <div className="card-header">
+//                 <h4>{complaint.title}</h4>
+//                 </div>
+//                 <div className="card-body">
+//                     <p className={`card-text ${Styles.blackk}`}>{complaint.description}</p>
+//                 </div>
+//             </div>
+//         </div>
+//     </Link>
+// );

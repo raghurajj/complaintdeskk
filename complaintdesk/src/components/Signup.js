@@ -4,9 +4,6 @@ import { Link, Redirect } from 'react-router-dom';
 import { signup } from '../actions/auth';
 import Styles from './Components.module.css';
 import { Spring } from 'react-spring/renderprops'; 
-import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFacebook, faGoogle, faTwitter } from "@fortawesome/free-brands-svg-icons"
 
 
 const Signup = ({ signup, isAuthenticated }) => {
@@ -138,18 +135,6 @@ const Signup = ({ signup, isAuthenticated }) => {
 
                                         <button className={`${Styles.btn} ${Styles.fill_button}`}  type='submit'>Register</button>
                                     </form>
-                                    {/* <p className='mt-3'>
-                                        OR
-                                    </p>
-                                    <p className='mt-3'>
-                                        <button className="btn btn-danger" onClick={continueWithGoogle}><FontAwesomeIcon icon={faGoogle} /> &nbsp;Continue with google</button>
-                                    </p>
-                                    <p className='mt-3'>
-                                        <button className="btn btn-primary" onClick={continueWithFacebook}><FontAwesomeIcon icon={faFacebook} /> &nbsp; Continue with facebook</button>
-                                    </p>
-                                    <p className='mt-3'>
-                                        <button className="btn btn-success"><a href="https://twitter.com/login?lang=en" className={Styles.navlink} target="_blank"><FontAwesomeIcon icon={faTwitter} /> &nbsp;Continue with twitter</a></button>
-                                    </p> */}
                                     <p className='mt-3'>
                                         Already have an account? <Link to='/login'>Sign In</Link>
                                     </p>

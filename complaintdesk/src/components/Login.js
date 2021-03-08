@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import { login } from '../actions/auth';
 import Styles from './Components.module.css';
 import { Spring } from 'react-spring/renderprops'; 
-import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFacebook, faGoogle, faTwitter } from "@fortawesome/free-brands-svg-icons"
 
 
 const Login = ({ login, isAuthenticated }) => {
@@ -23,36 +20,6 @@ const Login = ({ login, isAuthenticated }) => {
         e.preventDefault();
 
         login(email, password);
-    };
-
-    const continueWithGoogle = async()=>{
-        try{
-            const res = await axios.get('/auth/o/google-oauth2/?redirect_uri=http://localhost:8000/google')
-            window.location.replace(res.data.authorization_url);
-        }
-        catch(err){
-            // co
-        }
-    };
-    
-    const continueWithFacebook = async()=>{
-        try{
-            const res = await axios.get('/auth/o/facebook/?redirect_uri=http://localhost:8000/facebook')
-            window.location.replace(res.data.authorization_url);
-        }
-        catch(err){
-            // co
-        }
-    };
-
-    const continueWithTwitter = async()=>{
-        try{
-            const res = await axios.get('/auth/o/twitter/?redirect_uri=http://localhost:8000/twitter')
-            window.location.replace(res.data.authorization_url);
-        }
-        catch(err){
-            // co
-        }
     };
 
     if (isAuthenticated)
@@ -97,19 +64,7 @@ const Login = ({ login, isAuthenticated }) => {
                                     </div>
                                     <button className={`${Styles.btn} ${Styles.fill_button}`} type='submit'>Login</button>
                                 </form>
-
-                                {/* <p className='mt-3'>
-                                        OR
-                                </p> */}
-                                {/* <p className='mt-3'>
-                                    <button className="btn btn-danger" onClick={continueWithGoogle}><FontAwesomeIcon icon={faGoogle} /> &nbsp;Continue with google</button>
-                                </p>
-                                <p className='mt-3'>
-                                    <button className="btn btn-primary" onClick={continueWithFacebook}><FontAwesomeIcon icon={faFacebook} /> &nbsp; Continue with facebook</button>
-                                </p>
-                                <p className='mt-3'>
-                                <button className="btn btn-success"><a href="https://twitter.com/login?lang=en" className={Styles.navlink} target="_blank"><FontAwesomeIcon icon={faTwitter} /> &nbsp;Continue with twitter</a></button>
-                                </p> */}
+                                
                                 <p className='mt-3'>
                                 Don't have an account? <Link to='/signup'>Sign Up</Link>
                                 </p>

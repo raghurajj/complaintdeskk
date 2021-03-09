@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const Complaint = require('./Complaint')
+
 
 const UserSchema = new Schema({
     name:{
@@ -16,16 +16,16 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default:'user'
+    },
     register_date:{
         type:Date,
         default:Date.now()
     }   
 })
 
-// UserSchema.virtual('complaints',{
-//     ref:'Complaint',
-//     localField:'_id',
-//     foreignField:'author'
-// })
 
 module.exports = User = mongoose.model('User',UserSchema)

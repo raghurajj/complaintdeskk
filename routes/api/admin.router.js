@@ -1,13 +1,16 @@
 const AdminBro = require('admin-bro')
 const AdminBroExpress = require('@admin-bro/express')
 const AdminBroMongoose = require('@admin-bro/mongoose')
-const {User} = require('./users')
-const {Complaint} = require('./complaints')
+const User = require('../../models/User')
+const Complaint = require('../../models/Complaint')
+const bcrypt = require('bcryptjs')
+const users = require('./users')
+const complaints = require('./complaints')
 
 const mongoose = require('mongoose')
 
 const AdminBroOptions = {
-  resources: [User,Complaint],
+  resources: [users,complaints],
   branding: {
     companyName: 'complaintDesk',
   }
@@ -19,17 +22,16 @@ const adminBro = new AdminBro({
   rootPath: '/admin',
 })
 
-const ADMIN = {
-  email: process.env.ADMIN_EMAIL || 'raghurajj@gmail.com',
-  password: process.env.ADMIN_PASSWORD || 'raghurajj'
-}
-
 const router = AdminBroExpress.buildAuthenticatedRouter(adminBro,{
   cookieName:process.env.ADMIN_COOKIE_NAME || "admin-bro",
   cookiePassword: process.env.ADMIN_COOKIE_PASS || 'supersecret-and-long-password-for-a-cookie-in-the-browser',
   authenticate: async (email, password)=>{
-    if(email === ADMIN.email && password === ADMIN.password){
-      return ADMIN
+
+    const user  = await User.findOne({ email })
+
+    if(user && bcrypt.compare(password,user.password) && user.role==='admin')
+    {
+      return user
     }
     return null
   }

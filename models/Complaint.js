@@ -21,6 +21,7 @@ const ComaplaintSchema = new Schema({
     },
     status:{
         type: String,
+        enum: ['pending', 'solved','inprogress'],
         default:'pending'
     },
     lattitude:{
@@ -32,7 +33,8 @@ const ComaplaintSchema = new Schema({
         required:true
     },
     image:{
-        type:String
+        type:String,
+        required:true
     },
     date:{
         type: Date,

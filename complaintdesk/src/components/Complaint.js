@@ -1,11 +1,11 @@
 import React,{Component} from 'react';
 import Styles from './Components.module.css';
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+import ReactMapboxGl from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import axios from 'axios';
 import { Spring } from 'react-spring/renderprops'; 
 import { connect } from 'react-redux';
-
+import { postComplaint } from '../actions/complaint';
 const Map = ReactMapboxGl({
     accessToken:
     'pk.eyJ1IjoicmFnaHVyYWpqIiwiYSI6ImNrMnJpYzhzZjA2MGIzZXBkb2oxYnV2MWQifQ.1PinwGk6Y3P0q-l7SXkfWg'
@@ -65,50 +65,12 @@ class Complaint extends Component{
     async handleSubmit(event){
         event.preventDefault();
         if (this.props.isAuthenticated) {
-            const config = {
-                headers: {
-                    // 'Content-Type': 'application/json',
-                    'x-auth-token': localStorage.getItem('token'),
-                    'Accept': 'application/json'
-                }
-            };
-
-            var apikey = '4a619a36656941199bc6b32ec0c058a2';
-
-            var api_url = 'https://api.opencagedata.com/geocode/v1/json'
-
-            var request_url = api_url
-            + '?'
-            + 'key=' + apikey
-            + '&q=' + encodeURIComponent(this.state.lattitude + ',' + this.state.longitude)
-            + '&pretty=1'
-            + '&no_annotations=1';
-
-            var d = await axios.get(request_url)
-           var adr = d.data.results[0].formatted
-           this.setState({
-               address:adr
-           })
-
-
-            var fd = new FormData()
-
-            fd.append("author" , this.props.user._id)
-            fd.append("title" , this.state.title)
-            fd.append("description" , this.state.description)
-            fd.append("image" , this.state.image)
-            fd.append("address" , this.state.address)
-            fd.append("lattitude" , this.state.lattitude)
-            fd.append("longitude" , this.state.longitude)
-            const body = fd
-            console.log(body);
-            try {
-                const res = await axios.post('/api/complaints/',body, config);
-                console.log("compliant post success");
-            
-            } catch (err) {
-                console.log("compliant post failed");
-            }
+            this.props.postComplaint(this.props.user,
+                                    this.state.title,
+                                    this.state.description,
+                                    this.state.image, 
+                                    this.state.lattitude, 
+                                    this.state.longitude)
         } 
         document.getElementById("fileControl").value="";
         this.setState({
@@ -201,4 +163,4 @@ const mapStateToProps = state => ({
     user: state.auth.user
 });
 
-export default  connect(mapStateToProps,null)(Complaint);
+export default  connect(mapStateToProps,{postComplaint})(Complaint);

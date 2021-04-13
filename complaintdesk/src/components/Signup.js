@@ -100,38 +100,6 @@ const Signup = ({ signup, isAuthenticated }) => {
                                                 required
                                             />
                                         </div>
-                                        <div className='form-group'>
-                                            <div className="row">
-                                                <div className="col"><p>Is Employee?</p></div>
-                                                <div className="col">
-                                                    <input
-                                                    className='form-control'
-                                                    type="checkbox"
-                                                    name='is_employee'
-                                                    onChange={e => onChangecheckbox(e)}
-                                                    />
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-
-                                        { is_employee?
-                                            <div className='form-group'>
-                                                <div className="row">
-                                                    <div className="col col-3"><p>ID Card</p></div>
-                                                    <div className="col">
-                                                        <input
-                                                            className='form-control'
-                                                            type='file'
-                                                            placeholder='Upload Image'
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>:null
-
-                                        }
 
                                         <button className={`${Styles.btn} ${Styles.fill_button}`}  type='submit'>Register</button>
                                     </form>

@@ -7,6 +7,7 @@ import { Spring } from 'react-spring/renderprops';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash} from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
+import { deleteComplaint } from '../actions/complaint';
 var dateFormat = require('dateformat');
 
 
@@ -38,7 +39,6 @@ class ComplaintDetail extends Component{
                 const pk = (window.location.pathname.split('/'))[2];
                 const url = '/api/complaints/'+pk+'/';
                 const res = await axios.get(url, config);
-                console.log(res.data);
                 this.setState({
                     complaintData:res.data
                 })
@@ -50,33 +50,13 @@ class ComplaintDetail extends Component{
 
     async handleDelete(){
         if(this.props.isAuthenticated){
-            const config = {
-                headers: {
-                    'x-auth-token': localStorage.getItem('token'),
-                    'Accept': 'application/json'
-                }
-            };
-
-            try {
-                const pk = (window.location.pathname.split('/'))[2];
-                const url = '/api/complaints/'+pk+'/';
-                const res = await axios.delete(url, config);
-                console.log(res)
-                this.props.history.push('/')
-            }catch (err) {
-                console.log(err);
-            }
+            this.props.deleteComplaint()
+            this.props.history.push('/')
         }
     }
 
     componentDidMount() {
         this.LoadData();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.id !== prevProps.id) {
-          this.LoadData();
-        }
     }
 
     render(){
@@ -97,9 +77,7 @@ class ComplaintDetail extends Component{
                                 <div className={`col-12 col-md-6 col-xs-12`}>
                                     <div className={Styles.complaintdetail}>
                                         <div className={Styles.complaintdetail_img}>
-                                            {/* <img src="https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-1029171697.jpg"/> */}
                                             <img src={`http://localhost:3000/${this.state.complaintData.image}`}/>
-                                            {console.log(this.state.complaintData.image)}
                                         </div>
                                         <div className={Styles.complaint_description}>
                                             <div className={Styles.complaint_date}>
@@ -126,7 +104,6 @@ class ComplaintDetail extends Component{
                                               
                                         </div>
                                     </div>
-                                    {/* <img src={this.state.complaintData.image}/> */}
                                 </div>:null}
                                 <div className={`col-12 col-md-6 ${Styles.map}`}>
                                     <Map
@@ -167,7 +144,8 @@ class ComplaintDetail extends Component{
 
 const mapStateToProps = state => ({
     isAuthenticated:state.auth.isAuthenticated,
-    user: state.auth.user
+    user: state.auth.user,
+    complaints:state.complaints.complaints
 });
 
-export default  connect(mapStateToProps,null)(ComplaintDetail);
+export default  connect(mapStateToProps,{deleteComplaint})(ComplaintDetail);

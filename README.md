@@ -22,7 +22,7 @@ ComplaintDesk is a MERN stack based platfrom where people can register complaint
 
 -Registration Page
 
-![Register Screen](images/Signup.png)
+![Register Screen](images/SignUp.png)
 
 
 ---

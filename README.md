@@ -1,7 +1,7 @@
 # ComplaintDesk
 
 ---
-ComplaintDesk is a MERN stack based platfrom where people can register complaints regarding the problem they face, and the gov-employees on the other side can check that complaint and mark the complaint solved/pending according to its status.
+ComplaintDesk is a MERN stack based platform where people can register complaints regarding the problem they face, and the gov-employees on the other side can check that complaint and mark the complaint solved/pending according to its status.
 
 
 ---
@@ -10,7 +10,7 @@ ComplaintDesk is a MERN stack based platfrom where people can register complaint
     -user can login/signup. 
     -Complaint author can Add/Update/Delete their complaints.
     -User can check the list of their past complaints.
-    -user can filter the complanits according to area/topic.
+    -user can filter the complaints according to area/topic.
     -User has option to tag complaint with its location.
     -Location can be added via map (used mapbox for this) or by loading user's live location.
     -Admin Panel, where only admins can log in. and can mark complaint solved/pending.
